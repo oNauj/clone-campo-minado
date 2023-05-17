@@ -7,9 +7,9 @@ using UnityEngine;
 public class Tilemap
 {
     Grid<NodeObject> grid;
-    public Tilemap(int width, int height, float cellSize, Vector3 originPosition, GameObject prefab)
+    public Tilemap(int width, int height, float cellSize, Vector3 originPosition)
     {
-        grid = new Grid<NodeObject>(width, height, cellSize, originPosition, (Grid<NodeObject> g, int x, int y) => new NodeObject(g, x, y, prefab));
+        grid = new Grid<NodeObject>(width, height, cellSize, originPosition, (Grid<NodeObject> g, int x, int y) => new NodeObject(g, x, y));
      
     }
 
@@ -26,9 +26,9 @@ public class Tilemap
     {
         tilemapVisual.SetGrid(grid);
     }
-    public string GetTilemapType(Vector3 worldPosition)
+    public NodeObject GetTilemapType(Vector3 worldPosition)
     {
-        return grid.GetValue(worldPosition).ToString();
+        return grid.GetValue(worldPosition);
     }
     
 

@@ -17,15 +17,14 @@ public class NodeObject
 
     private NodeTypes nodeType;
 
-    public NodeObject(Grid<NodeObject> grid, int x, int y, GameObject prefab)
+    public PrefabVisual prefabVisualObject;
+
+    public NodeObject(Grid<NodeObject> grid, int x, int y)
     {
         this.grid = grid;
         this.x = x;
         this.y = y;
-
-        prefab = GameObject.Instantiate(prefab, grid.GetWorldPosition(x, y), Quaternion.identity);
-
-        prefab.transform.localScale = Vector3.one * 10f;
+        
     }
 
     public void SetNodeType(NodeTypes nodeType)
@@ -33,14 +32,21 @@ public class NodeObject
         if(this.nodeType == NodeTypes.Empty)
         {
             this.nodeType = nodeType;
+           
             if (nodeType == NodeTypes.Mine)
             {
                 CreateBomb(x, y);
+                prefabVisualObject.SetActiveMine();
             }
                    
             grid.OnTriggedChangedValue(x, y);
         }
 
+    }
+
+    public void ShowNode()
+    {
+        prefabVisualObject.SetActiveNode(false);
     }
 
     private void CreateBomb(int x, int y)
@@ -53,11 +59,14 @@ public class NodeObject
         grid.GetValue(x, y - 1)?.AddNumber(1);
         grid.GetValue(x - 1, y + 1)?.AddNumber(1);
         grid.GetValue(x + 1, y - 1)?.AddNumber(1);
+
+        
     }
 
     private void AddNumber(int number)
     {
         this.emptyNumber++;
+        prefabVisualObject.SetNumber(emptyNumber);
         grid.OnTriggedChangedValue(x, y);
     }
     public NodeTypes GetTilemapSprite()

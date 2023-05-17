@@ -177,6 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7309854549826780194}
+  - component: {fileID: 8706330579694010456}
   m_Layer: 0
   m_Name: NodeObjectPrefab
   m_TagString: Untagged
@@ -204,6 +205,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8706330579694010456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4379838596397523120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bcc99fa0c2b27e4da9e0dc4fadd7d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeTransform: {fileID: 7823500956735608175}
+  mineTransform: {fileID: 8223124858091056728}
+  numberTransform: {fileID: 6130018570681557636}
+  flagTransform: {fileID: 4596761294573834877}
+  numberMeshProUGUI: {fileID: 4593164394999752287}
 --- !u!1 &4768997612998940028
 GameObject:
   m_ObjectHideFlags: 0

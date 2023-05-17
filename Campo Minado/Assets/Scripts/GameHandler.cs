@@ -9,7 +9,8 @@ public class GameHandler : MonoBehaviour
     Tilemap tilemap;
     [SerializeField] private int boardSize;
     [SerializeField] private float cellSize;
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private TilemapVisual tilemapVisual;
+
     private void Start()
     {
         Vector3 cameraPosition = Camera.main.transform.position;
@@ -18,8 +19,9 @@ public class GameHandler : MonoBehaviour
 
         int sideBoardSize = Mathf.FloorToInt(Mathf.Sqrt(boardSize));
 
-        tilemap = new Tilemap(sideBoardSize, sideBoardSize, cellSize, -new Vector3(1f, 1f, 0f) * (sideBoardSize*sideBoardSize/2), prefab);
+        tilemap = new Tilemap(sideBoardSize, sideBoardSize, cellSize, -new Vector3(1f, 1f, 0f) * (sideBoardSize*sideBoardSize/2));
 
+        tilemap.SetTilemapVisual(tilemapVisual);
 
     }
 
@@ -33,7 +35,7 @@ public class GameHandler : MonoBehaviour
         }
         if(Input.GetMouseButtonDown(1)) 
         {
-            tilemap.SetNodeObjectType(mouseWorldPosition, NodeObject.NodeTypes.Empty);
+            tilemap.GetTilemapType(mouseWorldPosition).ShowNode();
         }
     }
 
