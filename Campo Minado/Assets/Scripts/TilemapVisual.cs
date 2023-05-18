@@ -49,11 +49,6 @@ public class TilemapVisual : MonoBehaviour
                 
                 gridObject.prefabVisualObject = prefabTransform.GetComponent<PrefabVisual>();
 
-                gridObject.prefabVisualObject.SetNumber(0);
-
-                gridObject.prefabVisualObject.SetActiveNode(false);       
-
-
             }
 
 

@@ -14,7 +14,6 @@ public class PrefabVisual : MonoBehaviour
 
     public void SetActiveNode(bool active)
     {
-        print(active);
         nodeTransform?.gameObject.SetActive(active);
     }
 
@@ -28,9 +27,14 @@ public class PrefabVisual : MonoBehaviour
         flagTransform?.gameObject.SetActive(true);
     }
 
+    public void SetActiveNumber(bool active)
+    {
+        numberTransform?.gameObject.SetActive(active);
+    }
+
     public void SetNumber(int number)
     {
+        SetActiveNumber(true);
         numberMeshProUGUI.text = number.ToString();
-        Debug.Log(numberMeshProUGUI.text);
     }
 }

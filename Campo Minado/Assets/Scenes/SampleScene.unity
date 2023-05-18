@@ -155,6 +155,7 @@ MonoBehaviour:
   boardSize: 64
   cellSize: 10
   tilemapVisual: {fileID: 1134050913}
+  totalBombsSize: 4
 --- !u!4 &438419311
 Transform:
   m_ObjectHideFlags: 0

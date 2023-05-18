@@ -11,7 +11,38 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private float cellSize;
     [SerializeField] private TilemapVisual tilemapVisual;
 
+    [SerializeField] private int totalBombsSize;
+
+    public static GameHandler Instance { get;  set;}
+
+    public  event EventHandler<OnExplodeEventArgs> OnExplode;
+    public class OnExplodeEventArgs : EventArgs
+    {
+        public NodeObject nodeObject;
+    }
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        ChangeTilemapPositionInCenter();
+        tilemap.SetTilemapVisual(tilemapVisual);
+    }
     private void Start()
+    {
+
+        tilemap.CreateBombs(totalBombsSize);
+
+    }
+
+
+    private void ChangeTilemapPositionInCenter()
     {
         Vector3 cameraPosition = Camera.main.transform.position;
         float cameraHeight = 2f * Camera.main.orthographicSize;
@@ -19,10 +50,7 @@ public class GameHandler : MonoBehaviour
 
         int sideBoardSize = Mathf.FloorToInt(Mathf.Sqrt(boardSize));
 
-        tilemap = new Tilemap(sideBoardSize, sideBoardSize, cellSize, -new Vector3(1f, 1f, 0f) * (sideBoardSize*sideBoardSize/2));
-
-        tilemap.SetTilemapVisual(tilemapVisual);
-
+        tilemap = new Tilemap(sideBoardSize, sideBoardSize, cellSize, cameraPosition - new Vector3(1f, 1f, 0f) * (sideBoardSize * sideBoardSize / 2));
     }
 
     private void Update()
@@ -31,11 +59,16 @@ public class GameHandler : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {
-            tilemap.SetNodeObjectType(mouseWorldPosition, NodeObject.NodeTypes.Mine);
+            NodeObject nodeObject = tilemap.GetTilemapType(mouseWorldPosition);
+            nodeObject?.ShowNode();
+            if (nodeObject != null && nodeObject.GetTilemapSprite() == NodeObject.NodeTypes.Mine)
+            {
+                OnExplode?.Invoke(this, new OnExplodeEventArgs() {nodeObject = nodeObject });
+            }
         }
         if(Input.GetMouseButtonDown(1)) 
         {
-            tilemap.GetTilemapType(mouseWorldPosition).ShowNode();
+          
         }
     }
 

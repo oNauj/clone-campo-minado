@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class NodeObject 
 {
     public enum NodeTypes
     {
         Empty,
-        Mine
+        Mine,
+        Flag
     }
 
     private Grid<NodeObject> grid;
@@ -47,7 +50,11 @@ public class NodeObject
     public void ShowNode()
     {
         prefabVisualObject.SetActiveNode(false);
+
+        if(nodeType == NodeTypes.Empty) { FloodingReveal(); }
+        if (nodeType == NodeTypes .Mine) { }
     }
+
 
     private void CreateBomb(int x, int y)
     {
@@ -60,15 +67,41 @@ public class NodeObject
         grid.GetValue(x - 1, y + 1)?.AddNumber(1);
         grid.GetValue(x + 1, y - 1)?.AddNumber(1);
 
+
         
+    }
+    private void GetNearbyNodes(int x, int y)
+    { 
+        grid.GetValue(x + 1, y + 1)?.FloodingReveal();
+        grid.GetValue(x - 1, y - 1)?.FloodingReveal();
+        grid.GetValue(x + 1, y)?.FloodingReveal();
+        grid.GetValue(x - 1, y)?.FloodingReveal();
+        grid.GetValue(x, y + 1)?.FloodingReveal();
+        grid.GetValue(x, y - 1)?.FloodingReveal();
+        grid.GetValue(x - 1, y + 1)?.FloodingReveal();
+        grid.GetValue(x + 1, y - 1)?.FloodingReveal();
     }
 
     private void AddNumber(int number)
     {
-        this.emptyNumber++;
-        prefabVisualObject.SetNumber(emptyNumber);
-        grid.OnTriggedChangedValue(x, y);
+        if(nodeType != NodeTypes.Mine)
+        {
+            this.emptyNumber++;
+            prefabVisualObject.SetNumber(emptyNumber);
+            grid.OnTriggedChangedValue(x, y);
+        }
+
     }
+    public void FloodingReveal()
+    {
+        if (emptyNumber == 0)
+        {
+            emptyNumber = -1000;
+            ShowNode();
+            GetNearbyNodes(x, y);
+        }
+    }
+
     public NodeTypes GetTilemapSprite()
     {
         return nodeType;
