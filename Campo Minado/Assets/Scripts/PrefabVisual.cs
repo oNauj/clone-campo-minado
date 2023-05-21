@@ -11,10 +11,23 @@ public class PrefabVisual : MonoBehaviour
     [SerializeField] private Transform flagTransform;
     [SerializeField] private TextMeshProUGUI numberMeshProUGUI;
 
+    bool isNodeActive = true;
+
 
     public void SetActiveNode(bool active)
     {
         nodeTransform?.gameObject.SetActive(active);
+        isNodeActive = active;
+
+        SetActiveFlag(false);
+    }
+    public void SetNumberColor(Color color)
+    {
+        numberMeshProUGUI.color = color;
+    }
+    public bool GetNodeisActive()
+    {
+        return isNodeActive;
     }
 
     public void SetActiveMine()
@@ -22,9 +35,9 @@ public class PrefabVisual : MonoBehaviour
         mineTransform?.gameObject.SetActive(true);
         numberTransform?.gameObject.SetActive(false);
     }
-    public void SetActiveFlag()
+    public void SetActiveFlag(bool active)
     {
-        flagTransform?.gameObject.SetActive(true);
+        flagTransform?.gameObject.SetActive(active);
     }
 
     public void SetActiveNumber(bool active)

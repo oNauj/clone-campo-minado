@@ -15,7 +15,7 @@ public class TilemapVisual : MonoBehaviour
 
     public void SetGrid(Grid<NodeObject> grid)
     {
-        print("Oi");
+
         this.grid = grid;
         UpdateHeatMapVisual();
 

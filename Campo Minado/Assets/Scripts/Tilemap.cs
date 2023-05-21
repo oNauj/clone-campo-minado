@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Tilemap
 {
     Grid<NodeObject> grid;
     private int width, height;
-
+    public bool failEvent = false;
     private List<NodeObject> nodesBombs;
+
+    int max;
+    int quantidade;
     public Tilemap(int width, int height, float cellSize, Vector3 originPosition)
     {
         grid = new Grid<NodeObject>(width, height, cellSize, originPosition, (Grid<NodeObject> g, int x, int y) => new NodeObject(g, x, y));
@@ -17,25 +21,35 @@ public class Tilemap
         this.height = height;
         nodesBombs = new List<NodeObject>();
 
-        GameHandler.Instance.OnExplode += Instance_OnExplode;
+        max = width * height;
+     
 
     }
 
-    private void Instance_OnExplode(object sender, GameHandler.OnExplodeEventArgs e)
+
+
+    
+
+
+
+    public  IEnumerator ExplodeNodes(NodeObject nodeObject, float delay)
     {
+        
         foreach (var item in nodesBombs)
         {
-            Debug.Log("Explodiu");
-            if (item != e.nodeObject)
+            if (item != nodeObject)
             {
-                
+                Debug.Log("Explodiu");
                 item.prefabVisualObject.SetActiveNode(false);
+                failEvent = false;
+                yield return new WaitForSeconds(delay);
             }
-           
         }
+        GameHandler.Instance.OnVictoryFuction();
+        
     }
 
-    public void SetNodeObjectType(Vector3 worldPosition, NodeObject.NodeTypes nodeType)
+        public void SetNodeObjectType(Vector3 worldPosition, NodeObject.NodeTypes nodeType)
     {
         NodeObject NodeObject = grid.GetValue(worldPosition);
         if (NodeObject != null)
@@ -65,6 +79,7 @@ public class Tilemap
             {
                 nodeObject.SetNodeType(NodeObject.NodeTypes.Mine);
                 nodesBombs.Add(nodeObject);
+                grid.OnTriggedChangedValue(x, y);
             }
             else
             {

@@ -39,9 +39,9 @@ public class Grid<TGridObject>
         }
 
         // Calcula o offset para posicionar o TextMesh no centro da célula
-        Vector3 offset = Vector3.one * cellSize * 0.5f;
+      Vector3 offset = Vector3.one * cellSize * 0.5f;
         // Cria um TextMesh para cada célula do grid
-       ShowDebug(width, height, offset);
+     //  ShowDebug(width, height, offset);
 
 
     }
